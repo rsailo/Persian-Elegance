@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Persian Elegance - To Warm Your Heart</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="nav-active.js"></script>
+  <script defer src="posts.js"></script>
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="navbar">
+  <div class="logo">
+    <img src="assets/logo.jpg" alt="Logo" class="navbar-logo" style="height:38px;width:38px;border-radius:50%;vertical-align:middle;margin-right:10px;box-shadow:0 2px 8px #e0c6e6;object-fit:cover;">
+    <span class="logo-text">Persian Elegance</span>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="login.html">Post Story</a>
+    <a href="list.html">List</a>
+    <a href="#about">About</a>
+  </nav>
+  <input type="text" placeholder="Search">
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-img-wrapper">
+    <img src="assets/hero.jpg" alt="hero">
+    <div class="hero-glow"></div>
+  </div>
+</section>
+
+<!-- Welcome -->
+<section class="welcome">
+  <h1><span class="welcome-label">Welcome to</span> <span class="gradient-text">Persian Elegance</span></h1>
+  <div class="welcome-divider"></div>
+  <p class="subtitle">— a quiet little world where softness speaks louder than words.</p>
+  <p>Inspired by innocence, gentle beauty, and a soul that shines without trying, just like her.</p>
+  <p>Here, every story carries a touch of calm… and a little piece of unspoken admiration.</p>
+</section>
+
+<!-- Main Content -->
+<div class="container">
+
+  <!-- Posts -->
+  <div class="posts">
+
+    <h2 class="section-title">Recent Posts</h2>
+
+    <div class="home-post-grid" id="homePostGrid">
+      <div class="empty-state">Loading stories...</div>
+    </div>
+
+    <div class="home-post-actions">
+      <a href="list.html" class="show-all-stories-btn">Show all Stories</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="story-overlay" id="storyOverlay">
+  <div class="story-overlay-content" id="overlayContent">
+    <button class="close-btn" onclick="closeOverlay()">Close</button>
+  </div>
+</div>
+
+<!-- About Me -->
+<section class="about-section" id="about">
+  <div class="about-content">
+    <div class="about-portrait-card">
+      <div class="about-portrait-ring">
+        <img src="assets/profile.png" alt="Profile" class="about-profile-image">
+      </div>
+      <div class="about-portrait-caption">Dreamy sketches and soft storytelling</div>
+    </div>
+    <div class="about-copy-card">
+      <span class="about-kicker">About the creator</span>
+        <h3>A soft little world.</h3>
+        <p class="about-intro">Persian Elegance is a small, peaceful corner made for gentle hearts. Here, you'll find soft colors, delicate moods, and stories that feel warm, calm, and quietly beautiful.</p>
+      <div class="about-tags" aria-label="About highlights">
+        <span>soft art</span>
+        <span>dreamy stories</span>
+        <span>quiet beauty</span>
+      </div>
+      <div class="socials">
+        <a href="https://www.instagram.com/omtei.chhangte/" class="social-link instagram-link" target="_blank" rel="noreferrer">
+          <span class="social-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img" focusable="false">
+              <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5Zm8.88 1.12a1.13 1.13 0 1 1 0 2.26 1.13 1.13 0 0 1 0-2.26ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/>
+            </svg>
+          </span>
+          <span>Connect on Instagram</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="site-footer-line"></div>
+    <div class="site-footer-copy">
+      <p>Persian Elegance</p>
+      <span class="site-footer-tagline">Soft stories, gentle colors, quiet beauty.</span>
+      <span class="site-footer-love">Made with Love</span>
+      <a href="https://www.instagram.com/omtei.chhangte/" class="footer-ig-link" target="_blank" rel="noreferrer">
+        <span class="social-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" role="img" focusable="false">
+            <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5Zm8.88 1.12a1.13 1.13 0 1 1 0 2.26 1.13 1.13 0 0 1 0-2.26ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/>
+          </svg>
+        </span>
+        <span>Connect with us</span>
+      </a>
+    </div>
+    <div class="site-footer-line"></div>
+  </div>
+</footer>
+
+</body>
+</html>

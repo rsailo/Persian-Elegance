@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel - Persian Elegance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="admin.css" />
+  <script defer src="../nav-active.js"></script>
+</head>
+<body>
+
+  <header class="navbar">
+    <a href="../admin/admin.html" class="logo admin-logo-link" style="text-decoration: none; color: inherit;">
+      <img src="../assets/logo.jpg" alt="Logo" class="navbar-logo" />
+      <span class="logo-text">Persian Elegance</span>
+    </a>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="list.html">Dashboard</a>
+    </nav>
+  </header>
+
+  <main class="admin-shell">
+    <section class="admin-hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Admin Panel</span>
+        <h1>Post and manage stories.</h1>
+        <p>Upload a new story below and review the latest posts.</p>
+        <div class="hero-actions">
+          <a href="list.html" class="hero-link secondary-link">Open full dashboard</a>
+          <a href="../index.html" class="hero-link">Preview public site</a>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card accent-card">
+          <span class="stat-label">Stories total</span>
+          <strong class="stat-value" id="totalStories">0</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Public now</span>
+          <strong class="stat-value" id="publicStories">0</strong>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Archived</span>
+          <strong class="stat-value" id="archivedStories">0</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="admin-panel admin-upload">
+      <div class="panel-heading">
+        <div>
+          <span class="panel-tag">New story</span>
+          <h2>Upload story</h2>
+        </div>
+        <p>Fill in the details and publish.</p>
+      </div>
+      <form id="uploadForm" enctype="multipart/form-data">
+        <div class="form-grid">
+          <label class="form-field">
+            <span>Story title</span>
+            <input type="text" name="title" placeholder="Soft light over the city" required />
+          </label>
+          <label class="form-field">
+            <span>Author name</span>
+            <input type="text" name="author" placeholder="Omtei" required />
+          </label>
+        </div>
+        <label class="form-field form-field-wide">
+          <span>Story content</span>
+          <textarea name="content" placeholder="Write your story here..." required></textarea>
+        </label>
+        <label class="form-field form-field-wide file-field">
+          <span>Cover image</span>
+          <input type="file" name="storyImage" accept="image/*" required />
+        </label>
+        <div class="upload-actions">
+          <button type="submit">Publish Story</button>
+          <p id="statusMsg"></p>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <section class="recent-posts admin-panel">
+    <div class="section-heading">
+      <div class="section-title-box">
+        <h2>Recent stories</h2>
+      </div>
+      <a href="list.html" class="show-all-btn">Show all stories</a>
+    </div>
+    <div class="story-list" id="recentStories"></div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div class="site-footer-line"></div>
+      <div class="site-footer-copy">
+        <p>Persian Elegance Studio</p>
+        <span class="site-footer-tagline">Post, curate, and shape each story with care.</span>
+        <span class="site-footer-love">Made with Love</span>
+        <a href="https://www.instagram.com/omtei.chhangte/" class="footer-ig-link" target="_blank" rel="noreferrer">
+          <span class="social-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="img" focusable="false">
+              <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5Zm8.88 1.12a1.13 1.13 0 1 1 0 2.26 1.13 1.13 0 0 1 0-2.26ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/>
+            </svg>
+          </span>
+          <span>Connect with us</span>
+        </a>
+      </div>
+      <div class="site-footer-line"></div>
+    </div>
+  </footer>
+
+  <div class="story-overlay" id="storyOverlay">
+    <div class="story-overlay-content" id="overlayContent">
+      <button class="close-btn" onclick="closeOverlay()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const statusMsg = document.getElementById('statusMsg');
+    const recentContainer = document.getElementById('recentStories');
+    const overlay = document.getElementById('storyOverlay');
+    const overlayContent = document.getElementById('overlayContent');
+    const totalStories = document.getElementById('totalStories');
+    const publicStories = document.getElementById('publicStories');
+    const archivedStories = document.getElementById('archivedStories');
+    let stories = []; // ⭐ Made global for reliability
+
+    // Upload form logic (UNCHANGED)
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      try {
+        const res = await fetch('/upload', { method: 'POST', body: formData });
+        const result = await res.json();
+        if (result.success) {
+          statusMsg.innerText = "✅ Story uploaded successfully!";
+          form.reset();
+          loadRecentStories();
+        } else {
+          statusMsg.innerText = "❌ Upload failed.";
+        }
+      } catch (err) {
+        console.error(err);
+        statusMsg.innerText = "⚠️ Error uploading story.";
+      }
+    });
+
+    function closeOverlay() {
+      overlay.style.display = "none";
+    }
+
+    function openOverlay(story) {
+      const imageSrc = story.image || '../assets/post1.jpg';
+      overlayContent.innerHTML = `
+        <button class="close-btn" onclick="closeOverlay()">Close</button>
+        <div class="overlay-image-wrap simple-overlay-image">
+          <img src="${imageSrc}" alt="Story Image" />
+        </div>
+        <div class="overlay-copy simple-overlay-copy">
+          <h2>${story.title}</h2>
+          <div class="overlay-meta">
+            <span class="author-chip">By ${story.author}</span>
+            <span class="story-date-pill">${story.date}</span>
+          </div>
+        </div>
+        <div class="overlay-body simple-overlay-body">
+          <p class="overlay-content" style="white-space: pre-wrap;">${story.content}</p>
+        </div>
+      `;
+      overlay.style.display = "block";
+    }
+
+    // ⭐ New reliable way to handle button clicks
+    function handleRead(storyId) {
+        const story = stories.find(s => s._id === storyId);
+        if (story) openOverlay(story);
+    }
+
+    async function loadRecentStories() {
+      const res = await fetch('/stories'); // Correctly fetches all stories for admin view
+      stories = await res.json();
+      totalStories.textContent = stories.length;
+      publicStories.textContent = stories.filter(story => !story.isArchived).length;
+      archivedStories.textContent = stories.filter(story => story.isArchived).length;
+
+      if (!stories.length) {
+        recentContainer.innerHTML = `<div class="empty-state">No stories yet. Publish one above to start filling the archive.</div>`;
+        return;
+      }
+
+      const recent = stories.slice(0, 4);
+      recentContainer.innerHTML = recent.map((story) => {
+        const preview = (story.content || '').trim();
+        const imageSrc = story.image || '../assets/post1.jpg';
+
+        return `
+          <div class="story-card story-list-view">
+            <div class="story-media">
+              <img src="${imageSrc}" alt="${story.title}" />
+              <div class="story-media-glow"></div>
+            </div>
+            <div class="story-info">
+              <div class="story-heading-block">
+                <h3>${story.title}</h3>
+                <div class="story-heading-meta">
+                  <span class="author-chip">By ${story.author}</span>
+                  <span class="story-date-pill">${story.date}</span>
+                </div>
+              </div>
+              <p class="content-preview">${preview}</p>
+              <div class="story-footer">
+                <button class="read-btn" onclick="handleRead('${story._id}')">Read Full</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    loadRecentStories();
+  </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Full Story</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header class="navbar" style="position:fixed;top:0;left:0;width:100%;z-index:10;background:rgba(255,255,255,0.92);box-shadow:0 2px 12px #e0c6e6;">
+      <div class="logo">
+        <img src="assets/logo.jpg" alt="Logo" class="navbar-logo" style="height:38px;width:38px;border-radius:50%;vertical-align:middle;margin-right:10px;box-shadow:0 2px 8px #e0c6e6;object-fit:cover;">
+        <span class="logo-text">Persian Elegance</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="list.html">Stories</a>
+        <a href="blog.html">Blog</a>
+        <a href="about.html">About</a>
+      </nav>
+    </header>
+    <div style="height:70px;"></div>
+  <main class="story-reader">
+    <section class="reader-card">
+      <span class="reader-label">Reading Room</span>
+      <h1 class="reader-title" id="story-title">Full Story</h1>
+      <p class="reader-subtitle" id="story-meta">Settle in and read at your own pace.</p>
+      <div class="story-text" id="story-container">Loading story...</div>
+      <div class="back-button">
+        <a href="index.html" class="ghost-btn">← Go Back to Home</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const storyId = params.get('id');
+    const titleElement = document.getElementById('story-title');
+    const metaElement = document.getElementById('story-meta');
+    const contentElement = document.getElementById('story-container');
+
+    async function loadStory() {
+      if (!storyId) {
+        titleElement.textContent = 'Story not found';
+        metaElement.textContent = 'No story id was provided.';
+        contentElement.textContent = 'Open a story from the home page or story list.';
+        return;
+      }
+
+      try {
+        const response = await fetch(`/stories/${storyId}`);
+
+        if (!response.ok) {
+          throw new Error('Failed to load story');
+        }
+
+        const story = await response.json();
+        document.title = `${story.title} | Persian Elegance`;
+        titleElement.textContent = story.title || 'Untitled Story';
+        metaElement.textContent = `By ${story.author || 'Unknown'} | ${story.date || 'Unknown date'}`;
+        contentElement.textContent = story.content || 'This story has no content yet.';
+      } catch (error) {
+        titleElement.textContent = 'Story unavailable';
+        metaElement.textContent = 'There was a problem loading this story.';
+        contentElement.textContent = 'Please go back and try again.';
+      }
+    }
+
+    loadStory();
+  </script>
+
+</body>
+</html>

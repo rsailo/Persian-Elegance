@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>All Stories - Cute Story Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="nav-active.js"></script>
+    <style>
+      .navbar nav {
+        flex: 0 1 auto;
+        justify-content: flex-end;
+        margin-left: auto;
+      }
+
+      .blog {
+        width: 92%;
+        max-width: 1120px;
+        margin: 0 auto 40px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-panel {
+        margin: 24px 0 22px;
+        padding: 28px;
+        border-radius: 28px;
+        background: rgba(255, 255, 255, 0.74);
+        border: 1px solid rgba(185, 122, 184, 0.14);
+        box-shadow: 0 8px 32px rgba(80, 40, 120, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+      }
+
+      .intro-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(185, 122, 184, 0.12);
+        color: #b97ab8;
+        font-size: 0.88rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .hero-panel h1 {
+        margin: 12px 0 8px;
+        font-size: clamp(2rem, 4vw, 2.8rem);
+        line-height: 1.1;
+        color: #b97ab8;
+        background: linear-gradient(90deg, #b97ab8 30%, #f7c873 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hero-panel .subtitle {
+        margin: 0;
+        color: #5e4a5a;
+        line-height: 1.75;
+        font-size: 1rem;
+      }
+
+      .story-grid {
+        display: grid;
+        gap: 18px;
+      }
+
+      .story-card {
+        display: grid;
+        grid-template-columns: 180px minmax(0, 1fr);
+        gap: 18px;
+        background: rgba(255, 255, 255, 0.82);
+        padding: 18px;
+        border-radius: 24px;
+        border: 1px solid rgba(185, 122, 184, 0.14);
+        box-shadow: 0 10px 24px rgba(80, 40, 120, 0.08);
+        align-items: stretch;
+      }
+
+      .story-media {
+        position: relative;
+        overflow: hidden;
+        border-radius: 18px;
+      }
+
+      .story-media-glow {
+        position: absolute;
+        inset: auto 10px 10px 10px;
+        height: 28px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(185, 122, 184, 0.28), rgba(247, 200, 115, 0.36));
+        filter: blur(14px);
+        opacity: 0.7;
+        pointer-events: none;
+      }
+
+      .story-media img {
+        width: 100%;
+        height: 192px;
+        min-height: 192px;
+        max-height: 192px;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+        border-radius: 18px;
+      }
+
+      .story-info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .story-heading-block {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .story-info h2 {
+        margin: 0;
+        color: #5e4a5a;
+        font-size: 1.45rem;
+        line-height: 1.2;
+        background: linear-gradient(90deg, #b97ab8 30%, #f7c873 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: -webkit-box;
+        line-clamp: 2;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .story-heading-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .author-chip,
+      .story-date-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        background: rgba(247, 200, 115, 0.18);
+        color: #5e4a5a;
+      }
+
+      .content-preview {
+        color: #5a4b56;
+        white-space: pre-wrap;
+        display: -webkit-box;
+        line-clamp: 3;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.75;
+        margin: 0.75rem 0 0;
+        padding-left: 14px;
+        border-left: 3px solid rgba(185, 122, 184, 0.16);
+      }
+
+      .story-footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: auto;
+        padding-top: 12px;
+      }
+
+      .read-btn {
+        margin-top: 0;
+        background: linear-gradient(135deg, #f7c873, #f2d98a);
+        color: #5e4a5a;
+        padding: 9px 16px;
+        border: none;
+        border-radius: 999px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 8px 18px rgba(247, 200, 115, 0.28);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      }
+
+      .read-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 22px rgba(247, 200, 115, 0.34);
+        opacity: 0.95;
+      }
+
+      #page-info {
+        text-align: center;
+        margin-top: 16px;
+        color: #c89426;
+        font-weight: 600;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+      }
+
+      #pagination {
+        margin-top: 22px;
+        text-align: center;
+      }
+
+      #pagination .page-btn {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(247, 200, 115, 0.32));
+        color: #5e4a5a;
+        margin: 0 6px;
+        border: 1px solid rgba(247, 200, 115, 0.34);
+        border-radius: 999px;
+        padding: 10px 16px;
+        cursor: pointer;
+        font-weight: 600;
+        box-shadow: 0 8px 18px rgba(247, 200, 115, 0.18);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+      }
+
+      #pagination .page-btn:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 22px rgba(247, 200, 115, 0.26);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(247, 200, 115, 0.44));
+      }
+
+      #pagination .page-btn:disabled {
+        background: linear-gradient(135deg, #f7c873, #efb94f);
+        color: #5e4a5a;
+        cursor: default;
+        box-shadow: 0 10px 22px rgba(247, 200, 115, 0.28);
+      }
+
+      .story-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(255, 248, 251, 0.92);
+        backdrop-filter: blur(10px);
+        z-index: 999;
+        padding: 3rem 1rem;
+        overflow-y: auto;
+      }
+
+      .story-overlay-content {
+        background: rgba(255, 255, 255, 0.96);
+        max-width: 760px;
+        margin: auto;
+        border-radius: 28px;
+        padding: 1.5rem;
+        border: 1px solid rgba(185, 122, 184, 0.16);
+        box-shadow: 0 18px 44px rgba(80, 40, 120, 0.12);
+        text-align: left;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .overlay-copy h2 {
+        margin: 0;
+        font-size: clamp(1.8rem, 4vw, 2.4rem);
+        line-height: 1.12;
+        color: #b97ab8;
+        background: linear-gradient(90deg, #b97ab8 30%, #f7c873 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .overlay-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+
+      .overlay-image-wrap {
+        margin-bottom: 18px;
+        width: calc(100% + 3rem);
+        margin-left: -1.5rem;
+        margin-right: -1.5rem;
+        margin-top: -1.5rem;
+        background: linear-gradient(180deg, rgba(255, 248, 251, 0.92), rgba(250, 243, 232, 0.9));
+      }
+
+      .overlay-image-wrap img {
+        width: 100%;
+        height: auto;
+        max-height: 70vh;
+        object-fit: contain;
+        display: block;
+        border-radius: 28px 28px 0 0;
+      }
+
+      .overlay-body {
+        margin-top: 18px;
+        padding: 18px 20px;
+        border-radius: 20px;
+        background: rgba(255, 252, 248, 0.92);
+        border: 1px solid rgba(185, 122, 184, 0.1);
+      }
+
+      .overlay-content {
+        margin: 0;
+        color: #5e4a5a;
+        font-size: 1rem;
+        line-height: 1.85;
+      }
+
+      .simple-overlay-copy {
+        padding: 0 4px;
+      }
+
+      .simple-overlay-body {
+        box-shadow: none;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 1.1rem;
+        right: 1.1rem;
+        background: #b97ab8;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 0.5rem 0.95rem;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 2;
+      }
+
+      @media (max-width: 720px) {
+        .story-card {
+          grid-template-columns: 1fr;
+        }
+
+        .story-media img {
+          height: 220px;
+          min-height: 220px;
+          max-height: 220px;
+        }
+
+        .hero-panel {
+          padding: 22px;
+        }
+
+        .overlay-image-wrap img {
+          max-height: 48vh;
+        }
+
+        .story-overlay-content {
+          padding: 1.5rem;
+          border-radius: 24px;
+        }
+
+        .overlay-body {
+          padding: 18px;
+        }
+      }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+      <div class="logo">
+        <img src="assets/logo.jpg" alt="Logo" class="navbar-logo" style="height:38px;width:38px;border-radius:50%;vertical-align:middle;margin-right:10px;box-shadow:0 2px 8px #e0c6e6;object-fit:cover;">
+        <span class="logo-text">Persian Elegance</span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="list.html">Stories</a>
+      </nav>
+    </header>
+    <main class="blog">
+      <section class="hero-panel">
+        <div class="intro-badge">All stories</div>
+        <h1>Every story, all in one place.</h1>
+        <p class="subtitle">A clean little archive of stories you can read whenever you want.</p>
+      </section>
+      <section id="all-story-container" class="story-grid"></section>
+      <div id="page-info" class="page-info"></div>
+      <div id="pagination"></div>
+    </main>
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <div class="site-footer-line"></div>
+        <div class="site-footer-copy">
+          <p>Persian Elegance</p>
+          <span class="site-footer-tagline">Every story, all in one soft archive.</span>
+          <span class="site-footer-love">Made with Love</span>
+          <a href="https://www.instagram.com/omtei.chhangte/" class="footer-ig-link" target="_blank" rel="noreferrer">
+            <span class="social-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" role="img" focusable="false">
+                <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5a4.25 4.25 0 0 0 4.25 4.25h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5Zm8.88 1.12a1.13 1.13 0 1 1 0 2.26 1.13 1.13 0 0 1 0-2.26ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/>
+              </svg>
+            </span>
+            <span>Connect with us</span>
+          </a>
+        </div>
+        <div class="site-footer-line"></div>
+      </div>
+    </footer>
+    <div class="story-overlay" id="storyOverlay">
+      <div class="story-overlay-content" id="overlayContent">
+        <button class="close-btn" onclick="closeOverlay()">Close</button>
+      </div>
+    </div>
+
+    <script>
+      const container = document.getElementById("all-story-container");
+      const pagination = document.getElementById("pagination");
+      const overlay = document.getElementById("storyOverlay");
+      const overlayContent = document.getElementById("overlayContent");
+      let stories = []; 
+      let currentPage = 1;
+      const storiesPerPage = 7;
+
+      function closeOverlay() { overlay.style.display = "none"; }
+      function openOverlay(story) {
+        const imageSrc = story.image || 'assets/post1.jpg';
+        overlayContent.innerHTML = `
+          <button class="close-btn" onclick="closeOverlay()">Close</button>
+          <div class="overlay-image-wrap simple-overlay-image">
+            <img src="${imageSrc}" alt="${story.title}" />
+          </div>
+          <div class="overlay-copy simple-overlay-copy">
+            <h2>${story.title}</h2>
+            <div class="overlay-meta">
+              <span class="author-chip">By ${story.author}</span>
+              <span class="story-date-pill">${story.date}</span>
+            </div>
+          </div>
+          <div class="overlay-body simple-overlay-body">
+            <p class="overlay-content" style="white-space: pre-wrap;">${story.content}</p>
+          </div>
+        `;
+        overlay.style.display = "block";
+      }
+
+      // ⭐ New reliable way to handle button clicks
+      function handleRead(storyId) {
+        const story = stories.find(s => s._id === storyId);
+        if (story) openOverlay(story);
+      }
+
+      function renderStories() {
+        const start = (currentPage - 1) * storiesPerPage;
+        const end = start + storiesPerPage;
+        const currentStories = stories.slice(start, end);
+        if (!currentStories.length) {
+          container.innerHTML = `<div class="empty-state">No stories found. Check back later for new additions.</div>`;
+          pagination.innerHTML = "";
+          document.getElementById("page-info").textContent = "";
+          return;
+        }
+        container.innerHTML = currentStories.map(story => {
+          const preview = (story.content || '').trim();
+          const imageSrc = story.image || 'assets/post1.jpg';
+          return `
+            <div class="story-card">
+              <div class="story-media">
+                <img src="${imageSrc}" alt="${story.title}" />
+                <div class="story-media-glow"></div>
+              </div>
+              <div class="story-info">
+                <div class="story-heading-block">
+                  <h2>${story.title}</h2>
+                  <div class="story-heading-meta">
+                    <span class="author-chip">By ${story.author}</span>
+                    <span class="story-date-pill">${story.date}</span>
+                  </div>
+                </div>
+                <p class="content-preview">${preview}</p>
+                <div class="story-footer">
+                  <button class="read-btn" onclick="handleRead('${story._id}')">Read Full</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+        renderPagination();
+      }
+
+      function renderPagination() {
+        const totalPages = Math.ceil(stories.length / storiesPerPage);
+        const pageInfo = document.getElementById("page-info");
+        if (totalPages <= 1) { pagination.innerHTML = ''; pageInfo.textContent = ''; return; }
+        pageInfo.textContent = `📖 Page ${currentPage} of ${totalPages}`;
+        let buttons = '';
+        for (let i = 1; i <= totalPages; i++) {
+          buttons += `<button class="page-btn" ${i === currentPage ? 'disabled' : ''} onclick="goToPage(${i})">${i}</button>`;
+        }
+        pagination.innerHTML = buttons;
+      }
+
+      function goToPage(page) {
+        currentPage = page;
+        renderStories();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      async function loadStories() {
+        const res = await fetch('/public/stories');
+        stories = await res.json();
+        currentPage = 1;
+        renderStories();
+      }
+
+      loadStories();
+    </script>
+</body>
+</html>
